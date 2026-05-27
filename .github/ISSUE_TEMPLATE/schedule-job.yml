@@ -11,6 +11,7 @@ body:
       label: "Job name"
       description: "Short identifier for the job (no spaces recommended)."
       placeholder: "nightly-backup"
+    validations:
       required: true
 
   - type: textarea
@@ -19,6 +20,7 @@ body:
       label: "Job description"
       description: "What the job does and why it's needed."
       placeholder: "Backs up the Postgres DB to /backups every night."
+    validations:
       required: true
 
   - type: input
@@ -27,18 +29,18 @@ body:
       label: "Requested by (GitHub user or team)"
       description: "Who is requesting this job."
       placeholder: "@team-ops"
+    validations:
       required: true
 
-  - type: select
+  - type: dropdown
     id: schedule_type
     attributes:
       label: "Schedule type"
       description: "Choose whether this is recurring (cron) or one-time."
       options:
         - label: "Cron (recurring)"
-          value: "cron"
         - label: "One-time (at/date)"
-          value: "one-time"
+    validations:
       required: true
 
   - type: input
@@ -47,7 +49,6 @@ body:
       label: "Cron expression"
       description: "If using cron, provide the cron expression (min hour day month weekday). Leave blank for one-time jobs."
       placeholder: "0 2 * * *"
-      required: false
 
   - type: input
     id: at_time
@@ -55,7 +56,6 @@ body:
       label: "Run at (one-time)"
       description: "If one-time, provide date/time in UTC (YYYY-MM-DD HH:MM). Leave blank for recurring jobs."
       placeholder: "2026-05-28 03:00"
-      required: false
 
   - type: textarea
     id: command
@@ -63,6 +63,7 @@ body:
       label: "Command or script to run"
       description: "Full command or absolute script path to execute on the server."
       placeholder: "bash /opt/scripts/backup.sh --full"
+    validations:
       required: true
 
   - type: input
@@ -71,6 +72,7 @@ body:
       label: "Run as user"
       description: "Linux user account that should run this job."
       placeholder: "root"
+    validations:
       required: true
 
   - type: input
@@ -79,14 +81,12 @@ body:
       label: "Working directory (optional)"
       description: "Directory to cd into before running the command."
       placeholder: "/var/www/app"
-      required: false
 
   - type: textarea
     id: env_vars
     attributes:
       label: "Environment variables (optional)"
       description: "One per line, e.g. KEY=value"
-      required: false
 
   - type: input
     id: notify_emails
@@ -94,27 +94,21 @@ body:
       label: "Notification email(s) (optional)"
       description: "Comma-separated emails to notify on failure/success."
       placeholder: "ops@example.com,admin@example.com"
-      required: false
 
-  - type: select
+  - type: dropdown
     id: priority
     attributes:
       label: "Priority"
       options:
         - label: "Low"
-          value: "low"
         - label: "Medium"
-          value: "medium"
         - label: "High"
-          value: "high"
-      required: false
 
   - type: input
     id: estimated_runtime
     attributes:
       label: "Estimated runtime (minutes, optional)"
       placeholder: "e.g. 30"
-      required: false
 
   - type: checkboxes
     id: approvals
@@ -123,9 +117,8 @@ body:
       description: "Confirm the items below before submitting."
       options:
         - label: "I confirm the script/command has been code-reviewed and is safe to run"
-          value: "reviewed"
         - label: "I have provided any required credentials or secrets via the secure vault as instructed"
-          value: "secrets_provided"
+    validations:
       required: true
 
   - type: textarea
@@ -133,4 +126,3 @@ body:
     attributes:
       label: "Additional notes (optional)"
       description: "Any other context, log paths, or rollback instructions."
-      required: false
